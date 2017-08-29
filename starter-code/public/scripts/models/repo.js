@@ -7,10 +7,7 @@ var app = app || {};
   repos.all = [];
 
   repos.requestRepos = function(callback) {
-    // DONE: How would you like to fetch your repos? Don't forget to call the callback.
-    //       Remember that the callback function we'll want to call relies on repos.all
-    //       being an array with a bunch of repo objects in it, so you'll need to
-    //       populate it with the response from Github before you call the callback.
+    /* DONE: How would you like to fetch your repos? Don't forget to call the callback. Remember that the callback function we'll want to call relies on repos.all being an array with a bunch of repo objects in it, so you'll need to populate it with the response from Github before you call the callback.*/
     $.ajax({
       url: 'https://api.github.com/user/repos',
       method: 'GET',
@@ -22,6 +19,19 @@ var app = app || {};
   data => data.forEach(repo => repos.all.push(repo))),
   err => console.error(err.status, err.statusText, 'is the way my stuff is broken')
 
+    repos.this = $.ajax({
+      url: 'https://api.github.com/user/repos',
+      method: 'GET',
+      headers: {
+        Authorization: `token ${githubToken}`
+      }
+    })
+    .then(
+      // success
+      data => data.forEach(repo => repos.all.push(repo)),
+      // fail
+      err => console.error(err.statusCode, err.statusText, ' is what is broken.')
+    );
   };
 
   // REVIEW: Model method that filters the full collection for repos with a particular attribute.
