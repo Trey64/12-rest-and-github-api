@@ -12,6 +12,20 @@ var app = app || {};
     //       being an array with a bunch of repo objects in it, so you'll need to
     //       populate it with the response from Github before you call the callback.
 
+    repos.this = $.ajax({
+      // go get the data
+      url: 'https://api.github.com/user/repos',
+      method: 'GET',
+      headers: {
+        Authorization: `token ${githubToken}`
+      }
+    })
+    .then(
+      // success
+      data => data.forEach(repo => repos.all.push(repo)),
+      // fail
+      err => console.error(err.statusCode, err.statusText, ' is what is broken.')
+    );
   };
 
   // REVIEW: Model method that filters the full collection for repos with a particular attribute.
@@ -20,3 +34,4 @@ var app = app || {};
 
   module.repos = repos;
 })(app);
+app.repos.requestRepos();
