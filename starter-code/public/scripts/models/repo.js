@@ -15,23 +15,14 @@ var app = app || {};
         Authorization: `token ${githubToken}`
       }
     })
-.then(
-  data => data.forEach(repo => repos.all.push(repo))),
-  err => console.error(err.status, err.statusText, 'is the way my stuff is broken')
+  .then(
+    data => data.forEach(
+      repo => repos.all.push(repo)
+    ),
+    err => console.error(err)
+  )
+  .then(callback)
 
-    repos.this = $.ajax({
-      url: 'https://api.github.com/user/repos',
-      method: 'GET',
-      headers: {
-        Authorization: `token ${githubToken}`
-      }
-    })
-    .then(
-      // success
-      data => data.forEach(repo => repos.all.push(repo)),
-      // fail
-      err => console.error(err.statusCode, err.statusText, ' is what is broken.')
-    );
   };
 
   // REVIEW: Model method that filters the full collection for repos with a particular attribute.
@@ -40,4 +31,3 @@ var app = app || {};
 
   module.repos = repos;
 })(app);
-app.repos.requestRepos();
